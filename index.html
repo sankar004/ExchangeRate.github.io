@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Forex Reminder</title>
+  </head>
+  <body>
+    <h1>Forex Reminder</h1>
+    <p>Exchange rate: <span id="exchange-rate"></span></p>
+    <button id="refresh-button">Refresh</button>
+
+    <script>
+      const exchangeRateDisplay = document.querySelector("#exchange-rate");
+      const refreshButton = document.querySelector("#refresh-button");
+
+      async function getExchangeRate() {
+        const response = await fetch("https://api.exchangerate-api.com/v4/latest/EUR");
+        const data = await response.json();
+        return data.rates.USD;
+      }
+
+      async function updateExchangeRateDisplay() {
+        const exchangeRate = await getExchangeRate();
+        exchangeRateDisplay.textContent = exchangeRate;
+      }
+
+      refreshButton.addEventListener("click", updateExchangeRateDisplay);
+
+      updateExchangeRateDisplay();
+    </script>
+  </body>
+</html>
